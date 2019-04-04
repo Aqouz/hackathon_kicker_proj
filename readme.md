@@ -1,17 +1,17 @@
-initial password raspberry
+# Repository for the hackathon
 
+##### initial config raspberry
+```
 sudo raspi-config
-
 sudo dpkg-reconfigure tzdata
 sudo apt-get update
 sudo apt-get upgrade
-
+```
 
 
 ##### Install Apache2 Webserver:
 ```
 sudo apt-get install apache2
-(Rufe IP-Addr auf)
 ```
 ##### Install Mysql:
 ```
