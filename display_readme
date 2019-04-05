@@ -1,7 +1,11 @@
 TM1637:
 install raspberrypi-python-tm1637 from git
+
 install wiringpi2 from git
 
-tm1637 setup build and install
+(tm1637 setup build and install)
+git clone https://github.com/depklyon/raspberrypi-python-tm1637
+sudo python setup.py build
+sudo python setup.py install
 
 run: sudo python display.py
