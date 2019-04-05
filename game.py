@@ -5,7 +5,7 @@ import includes_display
 DIO=2
 CLK=3
 tm = TM1637(CLK, DIO)
-tm.brightness(1)
+tm.brightness(5)
 
 
 import RPi.GPIO as GPIO
@@ -17,7 +17,9 @@ import time
 score_home = 0
 score_guest = 0
 #lights = 0 -> button; lights = 1 -> light sensor
-lights = 0
+lights = 1
+max_score = 6
+score_timeout = 1000
 
 #reset button
 GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -38,8 +40,9 @@ else:
 includes_display.show_score(tm,0,0)
 
 def write_score(score_home,score_guest):
-    file_score  = open("gamescore", "w")
-    concat_score = str(score_home) + " " + str(score_guest) + "\n>"
+    #append to file
+    file_score  = open("gamescore", "a")
+    concat_score = str(score_home) + " " + str(score_guest) + time.strftime("%c")+ "\n"
     file_score.write(concat_score)
     file_score.close()
 
@@ -54,53 +57,59 @@ def reset_btn_pressed(channel):
 
 
 def home_scores(channel):
-    print "Goal for home team"
     global score_home
     global score_guest
+    if score_home == max_score or score_guest == max_score:
+        return()
+    print "Goal for home team"
     score_home = score_home + 1
     print(score_home,score_guest)
     includes_display.show_score(tm,score_home,score_guest)
-    if score_home == 10:
-        blink_score(tm,score_home,score_guest)
+    if score_home == max_score:
+        blink_score(tm,score_home,score_guest, "Home")
     write_score(score_home,score_guest)
 
 def guest_scores(channel):
-    print "Goal for guest team"
     global score_home
     global score_guest
+    if score_home == max_score or score_guest == max_score:
+        return()
+    print "Goal for guest team"
     score_guest = score_guest + 1
     print(score_home,score_guest)
     includes_display.show_score(tm,score_home,score_guest)
-    if score_guest == 10:
-        blink_score(tm,score_home,score_guest)
+    if score_guest == max_score:
+        blink_score(tm,score_home,score_guest, "Guest")
     write_score(score_home,score_guest)
 
 
-def blink_score(tm,score_home,score_guest):
-    print "We have a winner"
-    #for x in range(10):
-    #    includes_display.show_score(tm,0,0)
-    #    time.sleep(1)
-    #    includes_display.show_score(tm,score_home,score_guest)
-    #    time.sleep(1)
+def blink_score(tm,score_home,score_guest,winning_team):
+    print "We have a winner: " + winning_team
+    for x in range(3):
+        tm.brightness(0)
+        time.sleep(1)
+        tm.brightness(5)
+        time.sleep(1)
         #better blinking
 
 
-GPIO.add_event_detect(4, GPIO.FALLING, callback=reset_btn_pressed, bouncetime=300)
+GPIO.add_event_detect(4, GPIO.FALLING, callback=reset_btn_pressed, bouncetime=score_timeout)
 if lights == 0:
-    GPIO.add_event_detect(17, GPIO.FALLING, callback=home_scores, bouncetime=300)
+    GPIO.add_event_detect(17, GPIO.FALLING, callback=home_scores, bouncetime=score_timeout)
 else:
-    GPIO.add_event_detect(17, GPIO.RISING, callback=home_scores, bouncetime=300)
+    GPIO.add_event_detect(17, GPIO.RISING, callback=home_scores, bouncetime=score_timeout)
 if lights == 0:
-    GPIO.add_event_detect(27, GPIO.FALLING, callback=guest_scores, bouncetime=300)
+    GPIO.add_event_detect(27, GPIO.FALLING, callback=guest_scores, bouncetime=score_timeout)
 else:
-    GPIO.add_event_detect(27, GPIO.RISING, callback=guest_scores, bouncetime=300)
+    GPIO.add_event_detect(27, GPIO.RISING, callback=guest_scores, bouncetime=score_timeout)
 
 
 #error handling and script exit
-try:
-    raw_input("Press Enter to exit\n>")
-
-except KeyboardInterrupt:
-    GPIO.cleanup()       # clean up GPIO on CTRL+C exit
-GPIO.cleanup()           # clean up GPIO on normal exit
+#try:
+#    raw_input("Press Enter to exit\n>")
+#
+#except KeyboardInterrupt:
+#    GPIO.cleanup()       # clean up GPIO on CTRL+C exit
+#GPIO.cleanup()           # clean up GPIO on normal exit
+while True:
+    pass
