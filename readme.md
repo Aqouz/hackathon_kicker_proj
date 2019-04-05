@@ -7,6 +7,9 @@ Example:
 pscp -r LCD_DISPLAY_DOGM_132_5 pi@135.246.1.4:
 ```
 
+##### User phpmyadmin mit root Rechten ausstatten
+GRANT ALL PRIVILEGES ON  *.* to 'user_name'@'host_name' WITH GRANT OPTION;
+
 ##### initial config raspberry
 ```
 sudo raspi-config
