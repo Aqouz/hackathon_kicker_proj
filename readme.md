@@ -45,3 +45,13 @@ apt-get install php7.0-intl
 /sbin/swapon /var/swap.1
 ```
 composer create-project --prefer-dist cakephp/app my_app_name
+
+
+##### Read GPIO
+```
+sudo python
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+print GPIO.input(4)
+```
