@@ -1,5 +1,12 @@
 # Repository for the hackathon
 
+##### scp mit putty
+```
+pscp 'Data' 'login'@ip:/directory
+Example:
+pscp -r LCD_DISPLAY_DOGM_132_5 pi@135.246.1.4:
+```
+
 ##### initial config raspberry
 ```
 sudo raspi-config
