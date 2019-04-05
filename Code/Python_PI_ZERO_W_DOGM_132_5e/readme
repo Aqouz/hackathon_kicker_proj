@@ -1,2 +1,2 @@
-sudo python setup.py 
+sudo python setup.py install
 sudo python test_dogm.py
