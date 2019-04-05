@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import doglcd, datetime, time, dogbl, threading
+import dogmlcd, datetime, time, dogbl, threading
 
 # __init__(self, lcdSI, lcdCLK, lcdRS, lcdCSB, pin_reset, pin_backlight):
 # pin   wpi   bcm
@@ -21,10 +21,10 @@ lcd.begin(doglcd.DOG_LCD_M132, 0x28)
 lcd.init(40)
 
 #def writeDot(self, page, column_low, column_high, data_value, delay):
-writeDot(0x1,0xA, 0x2, 0x4, 40)
-writeDot(0x2,0x8, 0x2, 0x4, 40)
-writeDot(0x4,0x6, 0x2, 0x4, 40)
-writeDot(0x8,0x2, 0x2, 0x4, 40)
+lcd.writeDot(0x1,0xA, 0x2, 0x4, 40)
+lcd.writeDot(0x2,0x8, 0x2, 0x4, 40)
+lcd.writeDot(0x4,0x6, 0x2, 0x4, 40)
+lcd.writeDot(0x8,0x2, 0x2, 0x4, 40)
 
 # bl = dogbl.DogBL(1)
 # bl.RGB(100,0,50)
