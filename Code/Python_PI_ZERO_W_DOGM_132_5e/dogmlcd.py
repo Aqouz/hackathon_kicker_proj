@@ -80,7 +80,7 @@ class DogLCD():
 			# self.startAddress[0] = 0
 			# self.startAddress[1] = 0x10
 			# self.startAddress[2] = 0x20
-		elif (model==DOG_LCD_M132):
+		if (model==DOG_LCD_M132):
 			self.rows = 3
 			self.cols = 16
 			self.memSize = 16
@@ -116,7 +116,7 @@ class DogLCD():
 		GPIO.output(self.lcdRS,GPIO.HIGH);
 
 	
-		# self.reset()
+		self.reset()
 		return True
 
 	def reset(self):
@@ -128,26 +128,26 @@ class DogLCD():
 		else:
 			self.delay(50)
 
-		if(self.model==DOG_LCD_M081):
-			self.instructionSetTemplate=0x30
-		elif(self.model==DOG_LCD_M162):
-			self.instructionSetTemplate=0x38
-		elif(self.model==DOG_LCD_M163):
-			self.instructionSetTemplate=0x38
+		# if(self.model==DOG_LCD_M081):
+			# self.instructionSetTemplate=0x30
+		# elif(self.model==DOG_LCD_M162):
+			# self.instructionSetTemplate=0x38
+		# elif(self.model==DOG_LCD_M163):
+			# self.instructionSetTemplate=0x38
 
-		self.setInstructionSet(1)
+		# self.setInstructionSet(1)
 
-		self.writeCommand(0x1D,30)
+		# self.writeCommand(0x1D,30)
 
-		self.setContrast(self.contrast)
+		# self.setContrast(self.contrast)
 
-		self.displayMode 	= DOG_LCD_DISPLAY_ON
-		self.cursorMode 		= DOG_LCD_CURSOR_ON
-		self.blinkMode 		= DOG_LCD_BLINK_OFF
-		self.writeDisplayMode()
-		self.entryMode 		= 0x04
-	#	self.clear()
-		self.leftToRight()
+		# self.displayMode 	= DOG_LCD_DISPLAY_ON
+		# self.cursorMode 		= DOG_LCD_CURSOR_ON
+		# self.blinkMode 		= DOG_LCD_BLINK_OFF
+		# self.writeDisplayMode()
+		# self.entryMode 		= 0x04
+	# #	self.clear()
+		# self.leftToRight()
 
 	def setContrast(self, contrast):
 		if(contrast<0 or contrast>0x3F):
@@ -198,9 +198,9 @@ class DogLCD():
 		
 	def writeDot(self, page, column_low, column_high, data_value, delay):
 		# Switch to data mode
-		writeCommand(0xB0 | page, delay)
-		writeCommand(0x10 | column_high, delay)
-		writeCommand(column_low, delay)
+		self.writeCommand(0xB0 | page, delay)
+		self.writeCommand(0x10 | column_high, delay)
+		self.writeCommand(column_low, delay)
 		self.spiTransfer(data_value,30)
 		return True
 		
@@ -232,20 +232,20 @@ class DogLCD():
 		self.delayMicroseconds( delay )
 		
 	def init(self, delay):
-		writeCommand(DOG_LCD_START_LINE_SET_NULL, delay)
-		writeCommand(DOG_LCD_SET_ADC_REVERSE, delay)
-		writeCommand(DOG_LCD_COMMON_OUTPUT_MODE_SELECT, delay)
-		writeCommand(DOG_LCD_SET_DISPLAY_NORMAL, delay)
-		writeCommand(0xA2, delay)
-		writeCommand(0x2F, delay)
-		writeCommand(0xF8, delay)
-		writeCommand(0x00, delay)
-		writeCommand(0x23, delay)
-		writeCommand(0x81, delay)
-		writeCommand(0x1F, delay)
-		writeCommand(0xAC, delay)
-		writeCommand(0x00, delay)
-		writeCommand(0xAF, delay)
+		self.writeCommand(DOG_LCD_START_LINE_SET_NULL, delay)
+		self.writeCommand(DOG_LCD_SET_ADC_REVERSE, delay)
+		self.writeCommand(DOG_LCD_COMMON_OUTPUT_MODE_SELECT, delay)
+		self.writeCommand(DOG_LCD_SET_DISPLAY_NORMAL, delay)
+		self.writeCommand(0xA2, delay)
+		self.writeCommand(0x2F, delay)
+		self.writeCommand(0xF8, delay)
+		self.writeCommand(0x00, delay)
+		self.writeCommand(0x23, delay)
+		self.writeCommand(0x81, delay)
+		self.writeCommand(0x1F, delay)
+		self.writeCommand(0xAC, delay)
+		self.writeCommand(0x00, delay)
+		self.writeCommand(0xAF, delay)
 		
 
 	
@@ -355,4 +355,4 @@ class DogLCD():
 	def noAutoscroll(self):
 		self.entryMode&=~0x01
 		self.writeCommand(self.entryMode,30)
-atexit.register(lambda: GPIO.cleanup())
+#atexit.register(lambda: GPIO.cleanup())
