@@ -54,7 +54,7 @@ try:
     max_id = cursor.fetchone()
     print(max_id[0])
     #game_ID = max_id[0] + 1
-    cursor.execute("INSERT INTO `games` (name_home, score_home, score_guest, name_guest) VALUES (``, 0, 0, ``)")
+    cursor.execute("INSERT INTO `games` (name_home, score_home, score_guest, name_guest) VALUES ('', 0, 0, '')")
 except:
     print "No DB connection or failure"
 
