@@ -1,0 +1,17 @@
+current:
+goal detection via light sensor
+„new game“ button
+game mode can be set (default: first to 6, „Turniermodus“)
+Automatic game score entry into database
+Player names can be set via web interface
+code and information can be found at git: https://github.com/Aqouz/hackathon_kicker_proj
+
+
+todo:
+embed into nokia internal network 
+redundant sensors for RPI failsafe
+statistics from the database
+user auth via nokia card
+graphics display
+sound module
+camera
