@@ -26,7 +26,7 @@ except:
 score_home = 0
 score_guest = 0
 #lights = 0 -> button; lights = 1 -> light sensor
-lights = 1
+lights = 0
 max_score = 6
 score_timeout = 1000
 game_ID = 0
