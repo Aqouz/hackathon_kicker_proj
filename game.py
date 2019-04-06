@@ -13,13 +13,23 @@ GPIO.setmode(GPIO.BCM)
 
 import time
 
+#mysql database
+import MySQLdb
+try:
+    db = MySQLdb.connect(host="10.0.1.1", user="phpmyadmin", passwd="pi_root1", db="hackathon_kicker_db")
+    cursor = db.cursor()
+except:
+    print "Cannot connect to database"
+
+
 #Variable definitions
 score_home = 0
 score_guest = 0
 #lights = 0 -> button; lights = 1 -> light sensor
-lights = 1
+lights = 0
 max_score = 6
 score_timeout = 1000
+game_ID = 0
 
 #reset button
 GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -38,11 +48,17 @@ else:
 #clear display and data at start
 #add clear data here
 includes_display.show_score(tm,0,0)
+#at initial start: read max game_ID from database
+cursor.execute("SELECT MAX(game_id) FROM `games` WHERE 1")
+max_id = cursor.fetchall()
+
+for x in max_id:
+  print(x)
 
 def write_score(score_home,score_guest):
-    #append to file
-    file_score  = open("gamescore", "a")
-    concat_score = str(score_home) + " " + str(score_guest) + time.strftime("%c")+ "\n"
+    #write to file
+    file_score  = open("gamescore", "w")
+    concat_score = str(score_home) + " " + str(score_guest) + " - " + time.strftime("%c")+ "\n"
     file_score.write(concat_score)
     file_score.close()
 
