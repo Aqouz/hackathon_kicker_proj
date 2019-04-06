@@ -49,11 +49,14 @@ else:
 #add clear data here
 includes_display.show_score(tm,0,0)
 #at initial start: read max game_ID from database
-cursor.execute("SELECT MAX(game_id) FROM `games` WHERE 1")
-max_id = cursor.fetchall()
-
-for x in max_id:
-  print(x)
+try:
+    cursor.execute("SELECT MAX(game_id) FROM `games` WHERE 1")
+    max_id = cursor.fetchone()
+    print(max_id[0])
+    #game_ID = max_id[0] + 1
+    cursor.execute("INSERT INTO `games` (name_home, score_home, score_guest, name_guest) VALUES (``, 0, 0, ``)")
+except:
+    print "No DB connection or failure"
 
 def write_score(score_home,score_guest):
     #write to file
